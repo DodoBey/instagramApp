@@ -11,7 +11,7 @@ import {
 function App() {
   return (
     <div className="App">
-      <p>This is APP JS - Example Text</p>
+      <p>Example Text</p>
     </div>
   );
 }
