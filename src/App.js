@@ -1,14 +1,21 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./scss/Main.scss";
+import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Header from "./components/Header";
 
 import Post from "./components/Post";
 
 function App() {
   return (
-    <div className="App">
-      <Post />
-    </div>
+    <Router>
+      <Header />
+      <Switch>
+        <Route path="/profile">
+          <Profile />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
