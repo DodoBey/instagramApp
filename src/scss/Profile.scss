@@ -1,3 +1,31 @@
-* {
-    
+.profileArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 30px 0;
+    .profilePic{
+        text-align: center;
+        img{
+            width: 50%;
+            border-radius: 50%;
+        }
+    }
+    .personalInfo{
+        .personalTop{
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            margin-bottom: 10px;
+            .userName{
+                margin: 0 30px 0 0;
+            }
+            a{
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                margin: auto 0;
+            }
+        }
+        
+    }
 }
