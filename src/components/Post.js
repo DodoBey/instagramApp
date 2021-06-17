@@ -13,6 +13,7 @@ const Post = () => {
   const handleFileSelect = (e) => {
     //console.log(e.target.files);
     let files = e.target.files; // FileList object
+    console.log(files);
 
     // Loop through the FileList and render image files as thumbnails.
     //@@@
