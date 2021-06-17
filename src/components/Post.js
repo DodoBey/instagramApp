@@ -1,10 +1,22 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useReducer } from "react";
 import "../scss/Post.scss";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import AuthContext from "../context/context";
 
+const sampleReducer = (sampleState, action) => {
+  switch (action.type) {
+    case "UPDATE":
+      return { ...sampleState, value: [action.payload, ...sampleState.value] };
+    default:
+      return sampleState;
+  }
+};
+
 const Post = () => {
   const ctx = useContext(AuthContext);
+  const [sampleState, dispatchSample] = useReducer(sampleReducer, {
+    value: "",
+  });
 
   //let imagesObject = [];
   // const [image, setImage] = useState();
@@ -31,6 +43,7 @@ const Post = () => {
         //console.log(e.target.result);
         //e.target.result === Data URI scheme of loaded image file
         setURIScheme(e.target.result);
+        dispatchSample("UPDATE");
         //displayImgData(e.target.result);
 
         addImage(e.target.result);
@@ -56,8 +69,8 @@ const Post = () => {
     console.log(imgData);
     ctx.setImage(imgData);
     //displayNumberOfImgs();
-    if (ctx.image) {
-      localStorage.setItem("images", JSON.stringify(ctx.image));
+    if (ctx.image.value) {
+      localStorage.setItem("images", JSON.stringify(ctx.image.value));
     }
   }
 
