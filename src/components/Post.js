@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "../scss/Post.scss";
 import { Button, Container, Row, Col } from "react-bootstrap";
+import AuthContext from "../context/context";
 
 const Post = () => {
+  const ctx = useContext(AuthContext);
+
   //let imagesObject = [];
-  const [image, setImage] = useState();
+  // const [image, setImage] = useState();
   const [URIScheme, setURIScheme] = useState();
 
   const handleFileSelect = (e) => {
-    console.log(e.target.files);
+    //console.log(e.target.files);
     let files = e.target.files; // FileList object
 
     // Loop through the FileList and render image files as thumbnails.
@@ -24,7 +27,7 @@ const Post = () => {
 
       // Closure to capture the file information.
       reader.onload = function (e) {
-        console.log(e.target.result);
+        //console.log(e.target.result);
         //e.target.result === Data URI scheme of loaded image file
         setURIScheme(e.target.result);
         //displayImgData(e.target.result);
@@ -38,49 +41,51 @@ const Post = () => {
 
   function loadFromLocalStorage() {
     let images = JSON.parse(localStorage.getItem("images"));
+    //setstateがある時はuseeffectを使うようにする。stateがupdateされると再レンダーされるから、useeffect使わないとinfinite loopになってしまう。
+    if (images && images.length > 0) {
+      ctx.setImage(images);
 
-    // if (images && images.length > 0) {
-    //   setImage(images);
-
-    //   //displayNumberOfImgs();
-    //   //images.forEach(displayImgData);
-    // }
-  }
-
-  function addImage(imgData) {
-    setImage(imgData);
-    // displayNumberOfImgs();
-    if (image) {
-      localStorage.setItem("images", JSON.stringify(image));
+      //displayNumberOfImgs();
+      //console.log(images);
+      //images.forEach(displayImgData);
     }
   }
 
-  //   function displayImgData(imgData) {
-  //     let span = document.createElement("span");
-  //     span.innerHTML = '<img class="thumb" src="' + imgData + '"/>';
-  //     document.getElementById("list").insertBefore(span, null);
-  //   }
+  function addImage(imgData) {
+    console.log(imgData);
+    ctx.setImage(imgData);
+    //displayNumberOfImgs();
+    if (ctx.image) {
+      localStorage.setItem("images", JSON.stringify(ctx.image));
+    }
+  }
 
-  //   function displayNumberOfImgs() {
-  //     if (image) {
-  //       if (image.length > 0) {
-  //         document.getElementById("state").innerHTML =
-  //           image.length +
-  //           " image" +
-  //           (image.length > 1 ? "s" : "") +
-  //           " stored in your browser";
+  // function displayImgData(imgData) {
+  //   let span = document.createElement("span");
+  //   span.innerHTML = '<img class="thumb" src="' + imgData + '"/>';
+  //   document.getElementById("list").insertBefore(span, null);
+  // }
 
-  //         document.getElementById("deleteImgs").style.display = "inline";
-  //       } else {
-  //         document.getElementById("state").innerHTML =
-  //           "No images stored in your browser.";
-  //         document.getElementById("deleteImgs").style.display = "none";
-  //       }
+  // function displayNumberOfImgs() {
+  //   if (image) {
+  //     if (image.length > 0) {
+  //       document.getElementById("state").innerHTML =
+  //         image.length +
+  //         " image" +
+  //         (image.length > 1 ? "s" : "") +
+  //         " stored in your browser";
+
+  //       document.getElementById("deleteImgs").style.display = "inline";
+  //     } else {
+  //       document.getElementById("state").innerHTML =
+  //         "No images stored in your browser.";
+  //       document.getElementById("deleteImgs").style.display = "none";
   //     }
   //   }
+  // }
 
   function deleteImages() {
-    setImage();
+    ctx.setImage();
     localStorage.removeItem("images");
     //displayNumberOfImgs();
     document.getElementById("list").innerHTML = "";
@@ -90,7 +95,9 @@ const Post = () => {
   //     .getElementById("files")
   //     .addEventListener("change", handleFileSelect, false);
   //   document.getElementById("deleteImgs").addEventListener("click", deleteImages);
-  loadFromLocalStorage();
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, []);
 
   return (
     <>
