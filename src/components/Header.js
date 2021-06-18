@@ -9,6 +9,7 @@ import Post from "./Post";
 
 const Header = () => {
     const [modalShow, setModalShow] = useState(false);
+    const handleClose = () => setModalShow(false);
     
     return (
         <>
@@ -21,21 +22,23 @@ const Header = () => {
                         <input type="text" placeholder="Search" />
                     </div>
                     <div className="navigateButtons">
-                        <a href=""><FontAwesomeIcon icon={faHome} /></a>
-                        <a href="" onClick={() => setModalShow(true)}><FontAwesomeIcon icon={faArrowCircleUp} /></a>
-                        <a href=""><FontAwesomeIcon icon={faUserCircle} /></a>
+                        <FontAwesomeIcon className="navIcons" icon={faHome} />
+                        <FontAwesomeIcon className="navIcons" onClick={() => setModalShow(true)} icon={faArrowCircleUp} />
+                        <FontAwesomeIcon className="navIcons" icon={faUserCircle} />
                     </div>
                 </div>
             </Container>
-            <Container>
                 <Modal
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
+                    show={modalShow}
+                    onHide={handleClose}
                 >
+                {/* <Modal.Body> */}
                     <Post />
+                {/* </Modal.Body> */}
                 </Modal>
-            </Container>
         </>
     )
 }

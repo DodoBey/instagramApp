@@ -42,9 +42,7 @@ export const AuthContextProvider = (props) => {
   console.log(data, comment)
 
   return (
-    <AuthContext.Provider value={{ image: image, setImage: setImage }}>
-      {props.children}
-    </AuthContext.Provider>
+    <></>
   );
 };
 export default AuthContext;

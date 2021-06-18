@@ -20,10 +20,14 @@
         }
     }
     .navigateButtons {
-        a {
+        .navIcons {
             margin: 0 7px;
             font-size: 25px;
             color: black;
+            &:hover{
+                transform : scale(1.1);
+                cursor: pointer;
+            }
         }
     }
 }
