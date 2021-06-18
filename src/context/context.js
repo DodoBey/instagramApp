@@ -19,6 +19,8 @@ const imageReducer = (state, action) => {
   }
 };
 
+console.log("hi");
+
 const AuthContext = React.createContext();
 
 export const AuthContextProvider = (props) => {
