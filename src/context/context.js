@@ -25,6 +25,8 @@ export const AuthContextProvider = (props) => {
       })
   }, [])
 
+  console.log(data)
+
   return (
     <AuthContext.Provider value={{ image: image, setImage: setImage }}>
       {props.children}
