@@ -1,29 +1,12 @@
-import { useEffect, useState, useContext, useReducer } from "react";
+import { useEffect, useState, useContext } from "react";
 import "../scss/Post.scss";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import AuthContext from "../context/context";
 
-const sampleReducer = (sampleState, action) => {
-  switch (action.type) {
-    case "UPDATE":
-      return { ...sampleState, value: [action.payload, ...sampleState.value] };
-    default:
-      return sampleState;
-  }
-};
-
 const Post = () => {
   const ctx = useContext(AuthContext);
-  const [sampleState, dispatchSample] = useReducer(sampleReducer, {
-    value: "",
-  });
-
-  //let imagesObject = [];
-  // const [image, setImage] = useState();
-  const [URIScheme, setURIScheme] = useState();
 
   const handleFileSelect = (e) => {
-    //console.log(e.target.files);
     let files = e.target.files; // FileList object
     console.log(files);
 
@@ -40,78 +23,37 @@ const Post = () => {
 
       // Closure to capture the file information.
       reader.onload = function (e) {
-        //console.log(e.target.result);
-        //e.target.result === Data URI scheme of loaded image file
-        setURIScheme(e.target.result);
-        dispatchSample("UPDATE");
-        //displayImgData(e.target.result);
-
-        addImage(e.target.result);
+        ctx.dispatchImage({ type: "UPDATE", payload: e.target.result });
+        localStorage.setItem("initialImage", JSON.stringify(e.target.result));
       };
 
+      console.log(ctx.imageState);
+      console.log(f);
+      addImage(f);
       reader.readAsDataURL(f);
     }
   };
 
-  function loadFromLocalStorage() {
-    let images = JSON.parse(localStorage.getItem("images"));
-    //setstateがある時はuseeffectを使うようにする。stateがupdateされると再レンダーされるから、useeffect使わないとinfinite loopになってしまう。
-    if (images && images.length > 0) {
-      ctx.setImage(images);
-
-      //displayNumberOfImgs();
-      //console.log(images);
-      //images.forEach(displayImgData);
-    }
-  }
-
   function addImage(imgData) {
-    console.log(imgData);
-    ctx.setImage(imgData);
-    //displayNumberOfImgs();
-    if (ctx.image.value) {
-      localStorage.setItem("images", JSON.stringify(ctx.image.value));
+    //ctx.dispatchImage({ type: "DELETE", payload: imgData });
+    if (ctx.imageState) {
+      console.log(ctx.imageState);
+      let images = JSON.parse(localStorage.getItem("images"));
+      console.log(images);
+      localStorage.setItem("images", JSON.stringify(ctx.imageState));
     }
   }
-
-  // function displayImgData(imgData) {
-  //   let span = document.createElement("span");
-  //   span.innerHTML = '<img class="thumb" src="' + imgData + '"/>';
-  //   document.getElementById("list").insertBefore(span, null);
-  // }
-
-  // function displayNumberOfImgs() {
-  //   if (image) {
-  //     if (image.length > 0) {
-  //       document.getElementById("state").innerHTML =
-  //         image.length +
-  //         " image" +
-  //         (image.length > 1 ? "s" : "") +
-  //         " stored in your browser";
-
-  //       document.getElementById("deleteImgs").style.display = "inline";
-  //     } else {
-  //       document.getElementById("state").innerHTML =
-  //         "No images stored in your browser.";
-  //       document.getElementById("deleteImgs").style.display = "none";
-  //     }
-  //   }
-  // }
 
   function deleteImages() {
-    ctx.setImage();
+    ctx.dispatchImage({ type: "DELETE", payload: null });
+    localStorage.removeItem("initialImage");
     localStorage.removeItem("images");
-    //displayNumberOfImgs();
-    document.getElementById("list").innerHTML = "";
   }
 
-  //   document
-  //     .getElementById("files")
-  //     .addEventListener("change", handleFileSelect, false);
-  //   document.getElementById("deleteImgs").addEventListener("click", deleteImages);
-  useEffect(() => {
-    loadFromLocalStorage();
-  }, []);
+  //setstateがある時はuseeffectを使うようにする。stateがupdateされると再レンダーされるから、useeffect使わないとinfinite loopになってしまう。
+  // useEffect(() => {
+  //   loadFromLocalStorage();
+  // }, []);
 
   return (
     <>
@@ -130,13 +72,18 @@ const Post = () => {
         <Row>
           <Col className="image">
             <div id="list">
-              {URIScheme && (
-                <img
-                  className="thumb"
-                  src={URIScheme}
-                  style={{ width: "600px" }}
-                />
-              )}
+              {ctx.imageState &&
+                ctx.imageState.map((image, i) => {
+                  console.log(image);
+                  return (
+                    <img
+                      key={i}
+                      className="thumb"
+                      src={typeof image === "string" ? image : ""}
+                      style={{ width: "600px" }}
+                    />
+                  );
+                })}
             </div>
           </Col>
         </Row>
