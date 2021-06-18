@@ -52,12 +52,11 @@ export const AuthContextProvider = (props) => {
   }, []);
 
   // Fetch function for comments, fix this later, need image id onClicked
-  useEffect(() => {
-    axios.get(`${api.commentUrl}{clickedimageid}/comment?limit=100`, { headers: { 'app-id': api.app_id } }) // Need to get id from clicked image
-    .then(({commentData}) => setComment(commentData))
-    .catch(console.error)
-  }, [])
-  console.log(initialState.data)
+  // useEffect(() => {
+  //   axios.get(`${api.commentUrl}{clickedimageid}/comment?limit=100`, { headers: { 'app-id': api.app_id } }) // Need to get id from clicked image
+  //   .then(({commentData}) => setComment(commentData))
+  //   .catch(console.error)
+  // }, [])
 
 
   return (

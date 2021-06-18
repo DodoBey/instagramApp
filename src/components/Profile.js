@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Image } from "react-bootstrap";
 import "../scss/Profile.scss";
 import ProfileImg from "../images/profile.jpg";
 import AuthContext from "../context/context";
@@ -7,8 +7,25 @@ import AuthContext from "../context/context";
 
 const Profile = () => {
   const ctxData = useContext(AuthContext);
+  const postData = ctxData.apiData[0].data;
+  // console.log(postData)
 
-  console.log(ctxData.apiData[0])
+  const posts = postData.map(post => {
+    console.log(post.image)
+    return (
+        <Container>
+          <Row>
+          <div className="cardImage">
+          <Col xl={4} md={4} lg={4}>
+            <Image src={post.image} rounded />
+          </Col>
+          </div>
+          <div className="cardInfo">
+          </div>
+          </Row>
+        </Container>
+    )
+  })
 
   return (
     <>
@@ -44,6 +61,7 @@ const Profile = () => {
             </div>
           </Col>
         </Row>
+        <Row>{posts}</Row>
       </Container>
     </>
   );
