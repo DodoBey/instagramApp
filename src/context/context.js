@@ -1,12 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import axios from 'axios';
+
+const initialState = {
+  value: "",
+};
+const imageReducer = (state, action) => {
+  console.log(state.value);
+  switch (action.type) {
+    case "UPDATE":
+      return { ...state, value: [action.payload, ...state.value] };
+    case "DELETE":
+      return { initialState };
+    default:
+      return state;
+  }
+};
 
 const AuthContext = React.createContext();
 
 export const AuthContextProvider = (props) => {
-  const [image, setImage] = useState();
+
+  const [state, dispatchImage] = useReducer(imageReducer, initialState);
   const [data, setData] = useState();
   const [comment, setComment] = useState();
+
 
   const api = {
     postUrl: "https://dummyapi.io/data/api/post?limit=100",
@@ -33,19 +50,21 @@ export const AuthContextProvider = (props) => {
     .catch(console.error)
   }, []);
 
-  // Fetch function for comments
+  // Fetch function for comments, fix this later, need image id onClicked
   useEffect(() => {
     axios.get(`${api.commentUrl}{clickedimageid}/comment?limit=100`, { headers: { 'app-id': api.app_id } }) // Need to get id from clicked image
     .then(({commentData}) => setComment(commentData))
     .catch(console.error)
   }, [])
-  console.log(data, comment)
+  console.log(data)
+
 
   return (
-    <></>
+    <AuthContext.Provider
+      value={{ imageState: state.value, dispatchImage: dispatchImage }}
+    >
+      {props.children}
+    </AuthContext.Provider>
   );
 };
 export default AuthContext;
-
-
-// Need to send data as a provider

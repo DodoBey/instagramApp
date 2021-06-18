@@ -35,9 +35,7 @@ const Header = () => {
                     show={modalShow}
                     onHide={handleClose}
                 >
-                {/* <Modal.Body> */}
                     <Post />
-                {/* </Modal.Body> */}
                 </Modal>
         </>
     )
