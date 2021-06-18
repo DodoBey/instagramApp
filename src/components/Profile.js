@@ -6,6 +6,7 @@ import Post from "./Post";
 
 const Profile = () => {
   return (
+    <>
     <Container>
       <Row className="profileArea">
         <Col xl={4} l={4} md={4} className="profilePic">
@@ -38,8 +39,9 @@ const Profile = () => {
           </div>
         </Col>
       </Row>
-      <Post />
     </Container>
+    <Post />
+    </>
   );
 };
 

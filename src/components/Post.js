@@ -57,7 +57,7 @@ const Post = () => {
 
   return (
     <>
-      <Container className="container">
+      <Container className="postContainer">
         <Row>
           <Col className="title">
             {" "}
