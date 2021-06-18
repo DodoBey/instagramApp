@@ -1,37 +1,38 @@
 import React, { useState, useReducer, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 const initialState = {
   value: "",
   data: [],
 };
 const imageReducer = (state, action) => {
-  console.log(state.value);
   switch (action.type) {
     case "UPDATE":
       return { ...state, value: [action.payload, ...state.value] };
     case "DELETE":
-      return { initialState };
+      return {
+        ...state,
+        value: initialState.value,
+      };
     default:
       return state;
   }
 };
 
+console.log("hi");
+
 const AuthContext = React.createContext();
 
 export const AuthContextProvider = (props) => {
-
   const [state, dispatchImage] = useReducer(imageReducer, initialState);
   const [data, setData] = useState();
   const [comment, setComment] = useState();
 
-
   const api = {
     postUrl: "https://dummyapi.io/data/api/post?limit=100",
     commentUrl: "https://dummyapi.io/data/post/",
-    app_id: '60cbbeb27632200c16f6e7bc'
-  }
-
+    app_id: "60cbbeb27632200c16f6e7bc",
+  };
 
   // Fetch function for posts
   useEffect(() => {
@@ -46,23 +47,30 @@ export const AuthContextProvider = (props) => {
     //   .catch((error) => {
     //     console.log(`Houston, we still have a problem! It's = ${error}`)
     //   })
-    axios.get(`${api.postUrl}`, { headers: { 'app-id': api.app_id } })
-    .then(({data}) => initialState.data.push(data) )
-    .catch(console.error)
+    axios
+      .get(`${api.postUrl}`, { headers: { "app-id": api.app_id } })
+      .then(({ data }) => initialState.data.push(data))
+      .catch(console.error);
   }, []);
 
   // Fetch function for comments, fix this later, need image id onClicked
   useEffect(() => {
-    axios.get(`${api.commentUrl}{clickedimageid}/comment?limit=100`, { headers: { 'app-id': api.app_id } }) // Need to get id from clicked image
-    .then(({commentData}) => setComment(commentData))
-    .catch(console.error)
-  }, [])
-  console.log(initialState.data)
-
+    axios
+      .get(`${api.commentUrl}{clickedimageid}/comment?limit=100`, {
+        headers: { "app-id": api.app_id },
+      }) // Need to get id from clicked image
+      .then(({ commentData }) => setComment(commentData))
+      .catch(console.error);
+  }, []);
+  console.log(initialState.data);
 
   return (
     <AuthContext.Provider
-      value={{ imageState: state.value, dispatchImage: dispatchImage, apiData: state.data }}
+      value={{
+        imageState: state.value,
+        dispatchImage: dispatchImage,
+        apiData: state.data,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
