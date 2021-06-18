@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "../scss/Profile.scss";
 import ProfileImg from "../images/profile.jpg";
-
+import AuthContext from "../context/context";
 
 
 const Profile = () => {
-  
+  const ctxData = useContext(AuthContext);
+
+  console.log(ctxData.apiData[0])
 
   return (
     <>

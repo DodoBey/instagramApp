@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   value: "",
+  data: [],
 };
 const imageReducer = (state, action) => {
   console.log(state.value);
@@ -46,7 +47,7 @@ export const AuthContextProvider = (props) => {
     //     console.log(`Houston, we still have a problem! It's = ${error}`)
     //   })
     axios.get(`${api.postUrl}`, { headers: { 'app-id': api.app_id } })
-    .then(({data}) => setData(data))
+    .then(({data}) => initialState.data.push(data) )
     .catch(console.error)
   }, []);
 
@@ -56,12 +57,12 @@ export const AuthContextProvider = (props) => {
     .then(({commentData}) => setComment(commentData))
     .catch(console.error)
   }, [])
-  console.log(data)
+  console.log(initialState.data)
 
 
   return (
     <AuthContext.Provider
-      value={{ imageState: state.value, dispatchImage: dispatchImage }}
+      value={{ imageState: state.value, dispatchImage: dispatchImage, apiData: state.data }}
     >
       {props.children}
     </AuthContext.Provider>
