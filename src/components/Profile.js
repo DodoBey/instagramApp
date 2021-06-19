@@ -4,7 +4,6 @@ import "../scss/Profile.scss";
 import ProfileImg from "../images/profile.jpg";
 import AuthContext from "../context/context";
 
-
 const Profile = () => {
   const ctxData = useContext(AuthContext);
   const postData = ctxData.apiData[0].data;
@@ -26,6 +25,8 @@ const Profile = () => {
         </Container>
     )
   })
+  console.log(ctxData.apiData[0]);
+
 
   return (
     <>
