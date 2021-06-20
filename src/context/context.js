@@ -14,6 +14,8 @@ const imageReducer = (state, action) => {
         ...state,
         value: initialState.value,
       };
+    case "FETCH_SUCCESS":
+      return { ...state, postData: action.payload };
     default:
       return state;
   }
@@ -34,23 +36,24 @@ export const AuthContextProvider = (props) => {
 
   // Fetch function for posts
   useEffect(() => {
-    fetch(`${api.postUrl}`, { headers: { "app-id": api.app_id },}).then(response => {
-      if (response.status !== 200) {
-        console.log(`Houston we have a problem! It's = ${response.status}`)
-      }
-      response.json().then(data => {
-        initialState.postData.push(data.data);
-      });
-    })
+    fetch(`${api.postUrl}`, { headers: { "app-id": api.app_id } })
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log(`Houston we have a problem! It's = ${response.status}`);
+        }
+        response.json().then((data) => {
+          //initialState.postData.push(data.data);
+          dispatchImage({ type: "FETCH_SUCCESS", payload: data.data });
+        });
+      })
       .catch((error) => {
-        console.log(`Houston, we still have a problem! It's = ${error}`)
-    })
+        console.log(`Houston, we still have a problem! It's = ${error}`);
+      });
     // axios
     //   .get(`${api.postUrl}`, { headers: { "app-id": api.app_id } })
     //   .then(({ data }) => initialState.postData.push(data))
     //   .catch(console.error);
   }, []);
-
 
   // Fetch function for comments, fix this later, need image id onClicked
   // useEffect(() => {
