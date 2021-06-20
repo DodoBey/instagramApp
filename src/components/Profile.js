@@ -6,29 +6,25 @@ import AuthContext from "../context/context";
 
 const Profile = () => {
   const ctxData = useContext(AuthContext);
-  const postData = ctxData.apiData
-  
-  console.log(postData)
+  const postData = ctxData.apiData;
 
-  const posts = postData.map(post => {
-    console.log(post)
+  console.log(postData);
+
+  const posts = postData.map((post) => {
+    console.log(post);
     return (
-        <Container>
-          <Row>
+      <Container>
+        <Row>
           <div className="cardImage">
-          <Col xl={4} md={4} lg={4}>
-            <Image src={post.image} rounded />
-          </Col>
+            <Col xl={4} md={4} lg={4}>
+              <Image src={post.image} rounded />
+            </Col>
           </div>
-          <div className="cardInfo">
-          </div>
-          </Row>
-        </Container>
-    )
-  })
- 
-
-
+          <div className="cardInfo"></div>
+        </Row>
+      </Container>
+    );
+  });
 
   return (
     <>
