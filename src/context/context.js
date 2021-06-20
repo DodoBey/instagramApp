@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   value: "",
-  data: [],
+  postData: [],
 };
 const imageReducer = (state, action) => {
   switch (action.type) {
@@ -18,8 +18,6 @@ const imageReducer = (state, action) => {
       return state;
   }
 };
-
-console.log("hi");
 
 const AuthContext = React.createContext();
 
@@ -36,22 +34,23 @@ export const AuthContextProvider = (props) => {
 
   // Fetch function for posts
   useEffect(() => {
-    // fetch(`${api.mainUrl}${api.app_id}/user`).then(response => {
-    //   if (response.status !== 200) {
-    //     console.log(`Houston we have a problem! It's = ${response.status}`)
-    //   }
-    //   response.json().then(data => {
-    //     setData(data)
-    //   });
-    // })
-    //   .catch((error) => {
-    //     console.log(`Houston, we still have a problem! It's = ${error}`)
-    //   })
-    axios
-      .get(`${api.postUrl}`, { headers: { "app-id": api.app_id } })
-      .then(({ data }) => initialState.data.push(data))
-      .catch(console.error);
+    fetch(`${api.postUrl}`, { headers: { "app-id": api.app_id },}).then(response => {
+      if (response.status !== 200) {
+        console.log(`Houston we have a problem! It's = ${response.status}`)
+      }
+      response.json().then(data => {
+        initialState.postData.push(data.data);
+      });
+    })
+      .catch((error) => {
+        console.log(`Houston, we still have a problem! It's = ${error}`)
+    })
+    // axios
+    //   .get(`${api.postUrl}`, { headers: { "app-id": api.app_id } })
+    //   .then(({ data }) => initialState.postData.push(data))
+    //   .catch(console.error);
   }, []);
+
 
   // Fetch function for comments, fix this later, need image id onClicked
   // useEffect(() => {
@@ -59,14 +58,14 @@ export const AuthContextProvider = (props) => {
   //   .then(({commentData}) => setComment(commentData))
   //   .catch(console.error)
   // }, [])
-
+  // console.log(initialState.postData)
 
   return (
     <AuthContext.Provider
       value={{
         imageState: state.value,
         dispatchImage: dispatchImage,
-        apiData: state.data,
+        apiData: state.postData,
       }}
     >
       {props.children}
