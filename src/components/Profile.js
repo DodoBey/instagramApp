@@ -6,11 +6,12 @@ import AuthContext from "../context/context";
 
 const Profile = () => {
   const ctxData = useContext(AuthContext);
-  const postData = ctxData.apiData[0].data;
-  // console.log(postData)
+  const postData = ctxData.apiData
+  
+  console.log(postData)
 
   const posts = postData.map(post => {
-    console.log(post.image)
+    console.log(post)
     return (
         <Container>
           <Row>
@@ -25,7 +26,8 @@ const Profile = () => {
         </Container>
     )
   })
-  console.log(ctxData.apiData[0]);
+ 
+
 
 
   return (
