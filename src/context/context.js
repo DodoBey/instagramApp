@@ -16,6 +16,8 @@ const imageReducer = (state, action) => {
       };
     case "FETCH_SUCCESS":
       return { ...state, postData: action.payload };
+    case "ADD":
+      return { ...state, postData: [action.payload, ...state.postData] };
     default:
       return state;
   }
@@ -54,7 +56,7 @@ export const AuthContextProvider = (props) => {
   //   .then(({commentData}) => setComment(commentData))
   //   .catch(console.error)
   // }, [])
-  
+
   return (
     <AuthContext.Provider
       value={{
