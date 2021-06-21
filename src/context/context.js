@@ -25,8 +25,6 @@ const AuthContext = React.createContext();
 
 export const AuthContextProvider = (props) => {
   const [state, dispatchImage] = useReducer(imageReducer, initialState);
-  const [data, setData] = useState();
-  const [comment, setComment] = useState();
 
   const api = {
     postUrl: "https://dummyapi.io/data/api/post?limit=100",
@@ -42,17 +40,12 @@ export const AuthContextProvider = (props) => {
           console.log(`Houston we have a problem! It's = ${response.status}`);
         }
         response.json().then((data) => {
-          //initialState.postData.push(data.data);
           dispatchImage({ type: "FETCH_SUCCESS", payload: data.data });
         });
       })
       .catch((error) => {
         console.log(`Houston, we still have a problem! It's = ${error}`);
       });
-    // axios
-    //   .get(`${api.postUrl}`, { headers: { "app-id": api.app_id } })
-    //   .then(({ data }) => initialState.postData.push(data))
-    //   .catch(console.error);
   }, []);
 
   // Fetch function for comments, fix this later, need image id onClicked

@@ -23,19 +23,17 @@ const Profile = () => {
   const ctxData = useContext(AuthContext);
   const postData = ctxData.apiData
 
-  console.log(postData)
 
   const posts = postData.map((post, key) => {
-    //console.log(post.tags)
     return (
-        <Col xl={4} md={4} lg={4} key={post.id}>
-          <Card className="cardImage" onClick={() => { setModalShow(true); setModalImg(post.image); setLikes(post.likes); setId(post.id); setCaption(post.text); setTags(post.tags); }}>
-            <Card.Img src={post.image} rounded />
-            <Card.ImgOverlay className="cardInfo">
-              <span className="imageLikes"><FontAwesomeIcon className="navIcons" icon={faHeart} />{post.likes}</span>
-            </Card.ImgOverlay>
-          </Card>
-        </Col>
+      <Col xl={4} md={4} lg={4} key={post.id}>
+        <Card className="cardImage" onClick={() => { setModalShow(true); setModalImg(post.image); setLikes(post.likes); setId(post.id); setCaption(post.text); setTags(post.tags); }}>
+          <Card.Img src={post.image} rounded />
+          <Card.ImgOverlay className="cardInfo">
+            <span className="imageLikes"><FontAwesomeIcon className="navIcons" icon={faHeart} />{post.likes}</span>
+          </Card.ImgOverlay>
+        </Card>
+      </Col>
     )
   })
 
@@ -88,27 +86,27 @@ const Profile = () => {
           <Row>
             <Col xl={8} l={8} md={8} className="modalImage"><img src={modalImg} alt="" /></Col>
             <Col xl={4} l={4} md={4} className="modalInfo">
-                <div className="modalProfile">
-                  <div className="modalProfileImage">
-                    <img src={ProfileImg} alt="" />
-                    <span>
-                      dgknygtr
-                    </span>
-                  </div>
-                  <div className="modalProfileInfo">
-                    <span>{caption}</span>
-                    <span>#{tags.join('#')}</span>
-                  </div>
+              <div className="modalProfile">
+                <div className="modalProfileImage">
+                  <img src={ProfileImg} alt="" />
+                  <span>
+                    dgknygtr
+                  </span>
                 </div>
-                <div className="modalComments"></div>
-                <div className="modalInteraction">
+                <div className="modalProfileInfo">
+                  <span>{caption}</span>
+                  <span>#{tags.join('#')}</span>
+                </div>
+              </div>
+              <div className="modalComments"></div>
+              <div className="modalInteraction">
                 <span onClick={() => setLikeIcon(faHeart)}><FontAwesomeIcon className="navIcons" icon={likeIcon} /></span>
                 <span><b>{likes}</b>Likes</span>
-                </div>
-                <div className="modalInput" >
-                  <input type="text" placeholder="Add Comment"/>
-                  <button>Share</button>
-                </div>
+              </div>
+              <div className="modalInput" >
+                <input type="text" placeholder="Add Comment" />
+                <button>Share</button>
+              </div>
             </Col>
           </Row>
         </Container>
