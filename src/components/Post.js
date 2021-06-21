@@ -3,7 +3,7 @@ import "../scss/Post.scss";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import AuthContext from "../context/context";
 
-const Post = () => {
+const Post = ({ setModalShow }) => {
   const ctx = useContext(AuthContext);
 
   const handleFileSelect = (e) => {
@@ -52,6 +52,7 @@ const Post = () => {
 
   const shareImages = () => {
     console.log(ctx.imageState);
+    ctx.dispatchImage({ type: "ADD", payload: ctx.imageState[0] });
   };
 
   return (
@@ -104,7 +105,10 @@ const Post = () => {
             <Button
               variant="dark"
               className="shareButton"
-              onClick={shareImages}
+              onClick={() => {
+                setModalShow(false);
+                shareImages();
+              }}
             >
               Share
             </Button>
