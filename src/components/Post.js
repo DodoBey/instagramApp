@@ -55,6 +55,7 @@ const Post = ({ setModalShow }) => {
     ctx.dispatchImage({ type: "ADD", payload: ctx.imageState[0] });
   };
 
+  
   return (
     <>
       <Container className="postContainer">

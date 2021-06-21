@@ -4,6 +4,8 @@ import axios from "axios";
 const initialState = {
   value: "",
   postData: [],
+  id: "",
+  comments: [],
 };
 const imageReducer = (state, action) => {
   switch (action.type) {
@@ -18,6 +20,10 @@ const imageReducer = (state, action) => {
       return { ...state, postData: action.payload };
     case "ADD":
       return { ...state, postData: [action.payload, ...state.postData] };
+    case "GET_COMMENT":
+      return {...state, id: action.payload };
+    case "COMMENT_FETCH_SUCCESS":
+      return { ...state, comments: action.payload };
     default:
       return state;
   }
@@ -30,9 +36,11 @@ export const AuthContextProvider = (props) => {
 
   const api = {
     postUrl: "https://dummyapi.io/data/api/post?limit=100",
-    commentUrl: "https://dummyapi.io/data/post/",
+    commentUrl: "https://dummyapi.io/data/api/post/",
     app_id: "60cbbeb27632200c16f6e7bc",
   };
+  
+  
 
   // Fetch function for posts
   useEffect(() => {
@@ -50,12 +58,30 @@ export const AuthContextProvider = (props) => {
       });
   }, []);
 
+  // Fetch function for comments
+  useEffect(() => {
+    fetch(`${api.commentUrl}${state.id}/comment?limit=100`, { headers: { "app-id": api.app_id } })
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log(`Houston we have a problem! It's = ${response.status}`);
+        }
+        response.json().then((commentData) => {
+          dispatchImage({ type: "COMMENT_FETCH_SUCCESS", payload: commentData.data });
+        });
+      })
+      .catch((error) => {
+        console.log(`Houston, we still have a problem! It's = ${error}`);
+      });
+  }, [state.id]);
+  
   // Fetch function for comments, fix this later, need image id onClicked
   // useEffect(() => {
   //   axios.get(`${api.commentUrl}{clickedimageid}/comment?limit=100`, { headers: { 'app-id': api.app_id } }) // Need to get id from clicked image
   //   .then(({commentData}) => setComment(commentData))
   //   .catch(console.error)
   // }, [])
+  console.log(state.id)
+  console.log(state.comments)
 
   return (
     <AuthContext.Provider
@@ -63,6 +89,7 @@ export const AuthContextProvider = (props) => {
         imageState: state.value,
         dispatchImage: dispatchImage,
         apiData: state.postData,
+        comments: state.comments,
       }}
     >
       {props.children}

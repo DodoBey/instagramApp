@@ -30,7 +30,7 @@
                 color: black;
                 font-weight: bold;
                 margin: auto 0;
-                &:hover{
+                &:hover {
                     color: rgb(98, 172, 245);
                 }
             }
@@ -45,7 +45,7 @@
             a {
                 text-decoration: none;
                 color: black;
-                &:hover{
+                &:hover {
                     color: rgb(98, 172, 245);
                     transform: scale(1.1);
                 }
@@ -104,10 +104,11 @@
 }
 
 .modalPost {
-    margin: auto 10px;
+    margin: auto 12px;
     padding: 0 !important;
     .modalImage {
         padding: 0 !important;
+        margin: auto 0;
         img {
             width: 100%;
         }
@@ -125,11 +126,11 @@
             margin-top: 10px;
             padding: 0 10px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-            .modalProfileInfo{
+            .modalProfileInfo {
                 display: flex;
                 flex-direction: column;
                 span {
-                    &:nth-last-child(1){
+                    &:nth-last-child(1) {
                         margin-top: 8px;
                         color: rgb(98, 172, 245);
                     }
@@ -137,7 +138,7 @@
             }
             .modalProfileImage {
                 img {
-                    width: 30px;
+                    width: 40px;
                     border-radius: 50%;
                 }
                 span {
@@ -149,8 +150,38 @@
         .modalComments {
             border-bottom: 1px solid rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            padding: 0 10px;
+            padding-left: 10px;
             height: 90%;
+            margin-top: 10px;
+            .commentArea {
+                display: flex;
+                flex-direction: column;
+                margin: 10px 0;
+                .commentSection {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: left;
+                    .commentImage {
+                        img {
+                            width: 40px;
+                            border-radius: 50%;
+                        }
+                    }
+                    .comment{
+                        padding-left: 12px;
+                        span {
+                            &:last-child{
+                                padding-left: 5px;
+                            }
+                        }
+                    }
+                }
+                .commentDate{
+                    font-size: 12px;
+                    font-weight: bold;
+                    padding-left: 52px;
+                }
+            }
         }
         .modalInteraction {
             display: flex;
@@ -159,7 +190,7 @@
             padding: 0 10px;
             margin-top: 5px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-            .navIcons{
+            .navIcons {
                 color: red;
             }
         }
@@ -180,7 +211,7 @@
                 border: none;
                 color: rgb(98, 172, 245);
                 font-weight: bold;
-                font-size: 1vw;
+                font-size: 0.8rem;
             }
         }
     }

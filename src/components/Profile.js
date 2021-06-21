@@ -21,19 +21,25 @@ const Profile = () => {
 
   const ctxData = useContext(AuthContext);
   const postData = ctxData.apiData;
+  const commentData = ctxData.comments;
 
+  console.log(commentData)
+
+  // Post map method
   const posts = postData.map((post, key) => {
     return (
       <Col xl={4} md={4} lg={4} key={post.id}>
         <Card
           className="cardImage"
-          onClick={() => {
+          onClick={(e) => {
+            e.persist();
             setModalShow(true);
             setModalImg(post.image ? post.image : post);
             setLikes(post.likes || null);
             setId(post.id || null);
             setCaption(post.text || null);
             setTags(post.tags || null);
+            getComments()
           }}
         >
           <Card.Img src={post.image ? post.image : post} rounded />
@@ -48,6 +54,32 @@ const Profile = () => {
     );
   });
 
+  // Send ID To Context to Fetch Comment Endpoint
+  const getComments = () => {
+    ctxData.dispatchImage({ type: "GET_COMMENT", payload: id })
+  }
+
+  // Comment map method
+  const comments = commentData.map((comment, key) => {
+    return (
+    <div className="commentArea" key={comment.id}>
+          <div className="commentSection">
+          <div className="commentImage">
+            <img src={comment.owner.picture} alt="" />
+          </div>
+          <div className="comment">
+            <span><b>{comment.owner.firstName}</b> <b>{comment.owner.lastName}</b></span>
+            <span>{comment.message}</span>
+          </div>
+        </div>
+        <div className="commentDate">
+          <span>{comment.publishDate}</span>
+        </div>
+    </div>
+    )
+  })
+  
+  console.log(comments)
   return (
     <>
       <Container>
@@ -107,7 +139,9 @@ const Profile = () => {
                   <span>#{tags && tags.join("#")}</span>
                 </div>
               </div>
-              <div className="modalComments"></div>
+              <div className="modalComments">
+                {comments}
+              </div>
               <div className="modalInteraction">
                 <span onClick={() => setLikeIcon(faHeart)}>
                   <FontAwesomeIcon className="navIcons" icon={likeIcon} />
