@@ -7,48 +7,38 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
-import { array } from "yargs";
+
 
 const Profile = () => {
   const [modalShow, setModalShow] = useState(false);
   const handleClose = () => setModalShow(false);
-  const [modalIma, setModalImg] = useState("");
+  const [modalImg, setModalImg] = useState("");
   const [likes, setLikes] = useState("");
   const [id, setId] = useState("");
-  const [caption, setCaption] = useState("")
-  const [tags, setTags] = useState[""]
-  const [tagsModal, setTagModals] = useState("")
-
+  const [caption, setCaption] = useState("");
+  const [tags, setTags] = useState([]);
+  const [liked, setLiked] = useState(false)
+  const [likeIcon, setLikeIcon] = useState(farHeart)
 
   const ctxData = useContext(AuthContext);
   const postData = ctxData.apiData
 
   console.log(postData)
 
-  const posts = postData[0].map(post => {
-    console.log(post)
+  const posts = postData.map((post, key) => {
+    //console.log(post.tags)
     return (
-      <>
-        <Col xl={4} md={4} lg={4}>
-          <Card className="cardImage" onClick={() => { setModalShow(true); setModalImg(post.image); setLikes(post.likes); setId(post.id); setCaption(post.text); setTags(post.tags)}}>
+        <Col xl={4} md={4} lg={4} key={post.id}>
+          <Card className="cardImage" onClick={() => { setModalShow(true); setModalImg(post.image); setLikes(post.likes); setId(post.id); setCaption(post.text); setTags(post.tags); }}>
             <Card.Img src={post.image} rounded />
             <Card.ImgOverlay className="cardInfo">
               <span className="imageLikes"><FontAwesomeIcon className="navIcons" icon={faHeart} />{post.likes}</span>
             </Card.ImgOverlay>
           </Card>
         </Col>
-      </>
     )
   })
 
-  
-  // const tagsSpread = () => {
-  //   for (const i=0; i<tags.length; i++){
-  //     setTagModals("#" + tags[i])
-  //   }
-  // }
-
-  console.log(tagsModal)
   return (
     <>
       <Container>
@@ -96,7 +86,7 @@ const Profile = () => {
       >
         <Container className="modalPost">
           <Row>
-            <Col xl={8} l={8} md={8} className="modalImage"><img src={modalIma} alt="" /></Col>
+            <Col xl={8} l={8} md={8} className="modalImage"><img src={modalImg} alt="" /></Col>
             <Col xl={4} l={4} md={4} className="modalInfo">
                 <div className="modalProfile">
                   <div className="modalProfileImage">
@@ -107,12 +97,12 @@ const Profile = () => {
                   </div>
                   <div className="modalProfileInfo">
                     <span>{caption}</span>
-                    <span>{tagsModal}</span>
+                    <span>#{tags.join('#')}</span>
                   </div>
                 </div>
                 <div className="modalComments"></div>
                 <div className="modalInteraction">
-                <FontAwesomeIcon className="navIcons" icon={farHeart} />
+                <span onClick={() => setLikeIcon(faHeart)}><FontAwesomeIcon className="navIcons" icon={likeIcon} /></span>
                 <span><b>{likes}</b>Likes</span>
                 </div>
                 <div className="modalInput" >
