@@ -10,6 +10,7 @@ import {
 import { Container } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Post from "./Post";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -26,13 +27,13 @@ const Header = () => {
             <input type="text" placeholder="Search" />
           </div>
           <div className="navigateButtons">
-            <FontAwesomeIcon className="navIcons" icon={faHome} />
+          <Link to="/"><FontAwesomeIcon className="navIcons" icon={faHome} /></Link>
             <FontAwesomeIcon
               className="navIcons"
               onClick={() => setModalShow(true)}
               icon={faArrowCircleUp}
             />
-            <FontAwesomeIcon className="navIcons" icon={faUserCircle} />
+             <Link to="/profile"><FontAwesomeIcon className="navIcons" icon={faUserCircle} /></Link>
           </div>
         </div>
       </Container>
