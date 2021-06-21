@@ -61,8 +61,7 @@ export const AuthContextProvider = (props) => {
   //   .then(({commentData}) => setComment(commentData))
   //   .catch(console.error)
   // }, [])
-  // console.log(initialState.postData)
-
+  
   return (
     <AuthContext.Provider
       value={{
